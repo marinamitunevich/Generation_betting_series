@@ -1,4 +1,7 @@
 package com.lottery.api;
 
-public class Lottery {
+public interface Lottery extends UnluckyNumbers {
+
+    void generateNumbers();
+    String getLotteryName();
 }

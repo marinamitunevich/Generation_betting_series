@@ -1,4 +1,12 @@
 package com.lottery.api.eurojackpot;
 
-public class EuroJackPot2From10 {
+import com.lottery.api.BaseLottery;
+
+public class EuroJackPot2From10 extends BaseLottery {
+
+    protected EuroJackPot2From10(String lotteryName) {
+        super(lotteryName, 1, 10,
+                2, "unluckyNumber2aus10.log");
+    }
+
 }
