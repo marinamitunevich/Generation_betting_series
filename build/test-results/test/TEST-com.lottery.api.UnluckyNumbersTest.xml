@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.lottery.api.UnluckyNumbersTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-10-22T00:30:03" hostname="Marinas-MacBook-Pro.local" time="0.425">
-  <properties/>
-  <testcase name="addUnluckyNumbersTest_IncorrectRangeOfUnluckyNumber()" classname="com.lottery.api.UnluckyNumbersTest" time="0.425"/>
-  <system-out><![CDATA[enter unlucky numbers for Lotto and please split with blank:
-unlucky number should be in the range [1,49] and it is allowed maximum 6 unlucky numbers
-]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
