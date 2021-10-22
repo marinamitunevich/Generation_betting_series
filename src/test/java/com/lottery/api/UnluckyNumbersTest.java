@@ -4,10 +4,10 @@ import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.spi.LoggingEvent;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -24,12 +24,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class UnluckyNumbersTest {
 
     protected Lottery lottery = new LottoLottery();
     protected Path path = Paths.get("unluckyNumber6aus49.txt");
-    Logger logger = Logger.getLogger(LottoLottery.class);
+    Logger logger = Logger.getLogger(BaseLottery.class.getName());
 
     @Mock
     Appender mockAppender;
@@ -68,7 +68,9 @@ public class UnluckyNumbersTest {
         assertNotNull(exception);
 
         ArgumentCaptor<LoggingEvent> eventArgumentCaptor = ArgumentCaptor.forClass(LoggingEvent.class);
+
         verify(mockAppender, times(1)).doAppend(eventArgumentCaptor.capture());
+
         assertEquals("NumberFormatException: ", eventArgumentCaptor.getAllValues().get(0).getMessage());
 
     }
@@ -80,9 +82,17 @@ public class UnluckyNumbersTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
 
+        logger.addAppender(mockAppender);
+
         Exception exception = assertThrows(NoSuchElementException.class,
                 () -> lottery.addUnluckyNumbers());
         assertNotNull(exception);
+
+        ArgumentCaptor<LoggingEvent> eventArgumentCaptor = ArgumentCaptor.forClass(LoggingEvent.class);
+
+        verify(mockAppender, times(1)).doAppend(eventArgumentCaptor.capture());
+
+        assertEquals("IncorrectRangeOfUnluckyNumber: ", eventArgumentCaptor.getAllValues().get(0).getMessage());
     }
 
     @Test
@@ -132,6 +142,5 @@ public class UnluckyNumbersTest {
         }
 
         assertTrue(line.size() == 0);
-
     }
 }

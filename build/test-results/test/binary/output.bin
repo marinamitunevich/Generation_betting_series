@@ -1,2 +1,2 @@
 =enter unlucky numbers for Lotto and please split with blank:
-invalid format of numbers
+Yunlucky number should be in the range [1,49] and it is allowed maximum 6 unlucky numbers
