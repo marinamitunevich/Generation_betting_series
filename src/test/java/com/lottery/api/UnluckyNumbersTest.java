@@ -37,9 +37,7 @@ public class UnluckyNumbersTest {
     @Test
     public void addUnluckyNumbersTest_success() {
 
-        String input = "5 6 7 30";
-        InputStream in = new ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
+        mockScanner("5 6 7 30");
 
         lottery.addUnluckyNumbers();
 
@@ -49,9 +47,7 @@ public class UnluckyNumbersTest {
     @Test
     public void addUnluckyNumbersTest_NumberFormatException() {
 
-        String input = "kk 6 7 30";
-        InputStream in = new ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
+        mockScanner("kk 6 7 30");
 
         logger.addAppender(mockAppender);
 
@@ -68,9 +64,7 @@ public class UnluckyNumbersTest {
     @Test
     public void addUnluckyNumbersTest_NumberFormatException_emptyLine() {
 
-        String input = "";
-        InputStream in = new ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
+        mockScanner("");
 
         logger.addAppender(mockAppender);
 
@@ -85,9 +79,7 @@ public class UnluckyNumbersTest {
     @Test
     public void addUnluckyNumbersTest_NumberFormatException_space() {
 
-        String input = " ";
-        InputStream in = new ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
+        String input = mockScanner(" ");
 
         logger.addAppender(mockAppender);
 
@@ -96,14 +88,16 @@ public class UnluckyNumbersTest {
         ArgumentCaptor<LoggingEvent> eventArgumentCaptor = ArgumentCaptor.forClass(LoggingEvent.class);
 
         verify(mockAppender, times(0)).doAppend(eventArgumentCaptor.capture());
+
+        String line = readFromFile();
+
+        assertEquals(input, line);
     }
 
     @Test
     public void addUnluckyNumbersTest_IncorrectRangeOfUnluckyNumber() {
 
-        String input = "0 6 7 50";
-        InputStream in = new ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
+        mockScanner("0 6 7 50");
 
         logger.addAppender(mockAppender);
 
@@ -120,9 +114,7 @@ public class UnluckyNumbersTest {
     @Test
     public void addUnluckyNumbersTest_IncorrectRangeOfUnluckyNumber_boundaryValues1and49() {
 
-        String input = "1 6 7 49";
-        InputStream in = new ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
+        String input = mockScanner("1 6 7 49");
 
         logger.addAppender(mockAppender);
 
@@ -138,9 +130,10 @@ public class UnluckyNumbersTest {
     @Test
     public void getUnluckyNumbersTest_success() {
 
-        String input = "20 6 7 30";
+        String input = mockScanner("20 6 7 30");
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
+
 
         lottery.addUnluckyNumbers();
 
@@ -175,5 +168,12 @@ public class UnluckyNumbersTest {
             e.printStackTrace();
         }
         return line;
+    }
+
+    private String mockScanner(String s) {
+
+        InputStream in = new ByteArrayInputStream(s.getBytes());
+        System.setIn(in);
+        return s;
     }
 }
