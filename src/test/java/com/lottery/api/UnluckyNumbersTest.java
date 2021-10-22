@@ -43,15 +43,7 @@ public class UnluckyNumbersTest {
 
         lottery.addUnluckyNumbers();
 
-        String line = "";
-        try {
-            line = Files.readAllLines(path).get(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        assertEquals("5 6 7 30", line);
-
+        assertEquals("5 6 7 30", readFromFile());
     }
 
     @Test
@@ -63,8 +55,7 @@ public class UnluckyNumbersTest {
 
         logger.addAppender(mockAppender);
 
-        Exception exception = assertThrows(NoSuchElementException.class,
-                () -> lottery.addUnluckyNumbers());
+        Exception exception = assertThrows(NoSuchElementException.class, () -> lottery.addUnluckyNumbers());
         assertNotNull(exception);
 
         ArgumentCaptor<LoggingEvent> eventArgumentCaptor = ArgumentCaptor.forClass(LoggingEvent.class);
@@ -72,7 +63,39 @@ public class UnluckyNumbersTest {
         verify(mockAppender, times(1)).doAppend(eventArgumentCaptor.capture());
 
         assertEquals("NumberFormatException: ", eventArgumentCaptor.getAllValues().get(0).getMessage());
+    }
 
+    @Test
+    public void addUnluckyNumbersTest_NumberFormatException_emptyLine() {
+
+        String input = "";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        logger.addAppender(mockAppender);
+
+        Exception exception = assertThrows(NoSuchElementException.class, () -> lottery.addUnluckyNumbers());
+        assertNotNull(exception);
+
+        ArgumentCaptor<LoggingEvent> eventArgumentCaptor = ArgumentCaptor.forClass(LoggingEvent.class);
+
+        verify(mockAppender, times(0)).doAppend(eventArgumentCaptor.capture());
+    }
+
+    @Test
+    public void addUnluckyNumbersTest_NumberFormatException_space() {
+
+        String input = " ";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+
+        logger.addAppender(mockAppender);
+
+        lottery.addUnluckyNumbers();
+
+        ArgumentCaptor<LoggingEvent> eventArgumentCaptor = ArgumentCaptor.forClass(LoggingEvent.class);
+
+        verify(mockAppender, times(0)).doAppend(eventArgumentCaptor.capture());
     }
 
     @Test
@@ -84,8 +107,7 @@ public class UnluckyNumbersTest {
 
         logger.addAppender(mockAppender);
 
-        Exception exception = assertThrows(NoSuchElementException.class,
-                () -> lottery.addUnluckyNumbers());
+        Exception exception = assertThrows(NoSuchElementException.class, () -> lottery.addUnluckyNumbers());
         assertNotNull(exception);
 
         ArgumentCaptor<LoggingEvent> eventArgumentCaptor = ArgumentCaptor.forClass(LoggingEvent.class);
@@ -96,23 +118,21 @@ public class UnluckyNumbersTest {
     }
 
     @Test
-    public void generateNumbersTest_success() {
+    public void addUnluckyNumbersTest_IncorrectRangeOfUnluckyNumber_boundaryValues1and49() {
 
-        LottoLottery lottery = new LottoLottery();
+        String input = "1 6 7 49";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
 
-        lottery.generateNumbers();
+        logger.addAppender(mockAppender);
 
-        String line = "";
-        try {
-            line = Files.readAllLines(path).get(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        lottery.addUnluckyNumbers();
 
-        assertTrue(!lottery.generatedNumbers.contains(Arrays.stream(line.split(" "))
-                .map(s -> Integer.valueOf(s)).collect(Collectors.toList())));
-        assertEquals(6, lottery.generatedNumbers.size());
+        ArgumentCaptor<LoggingEvent> eventArgumentCaptor = ArgumentCaptor.forClass(LoggingEvent.class);
 
+        verify(mockAppender, times(0)).doAppend(eventArgumentCaptor.capture());
+
+        assertEquals(input,readFromFile());
     }
 
     @Test
@@ -124,9 +144,10 @@ public class UnluckyNumbersTest {
 
         lottery.addUnluckyNumbers();
 
-        assertEquals(Arrays.stream(input.split(" ")).map(s -> Integer.valueOf(s)).collect(Collectors.toList()),
-                lottery.getUnluckyNumbers());
+        List<Integer> inputList = Arrays.stream(input.split(" ")).map(s -> Integer.valueOf(s)).collect(Collectors.toList());
 
+        assertEquals(inputList, lottery.getUnluckyNumbers());
+        assertEquals(inputList.size(),lottery.getUnluckyNumbers().size());
     }
 
     @Test
@@ -135,6 +156,7 @@ public class UnluckyNumbersTest {
         lottery.removeUnluckyNumbers();
 
         List<String> line = null;
+
         try {
             line = Files.readAllLines(path);
         } catch (IOException e) {
@@ -142,5 +164,16 @@ public class UnluckyNumbersTest {
         }
 
         assertTrue(line.size() == 0);
+    }
+
+    private String readFromFile() {
+
+        String line = "";
+        try {
+            line = Files.readAllLines(path).get(0);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return line;
     }
 }
