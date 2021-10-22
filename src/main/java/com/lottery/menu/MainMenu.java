@@ -1,10 +1,14 @@
 package com.lottery.menu;
 
 import com.lottery.ApplicationContext;
+import org.apache.log4j.Logger;
 
 import java.util.Scanner;
 
 public class MainMenu extends BaseMenu {
+
+    private static Logger log = Logger.getLogger(MainMenu.class.getName());
+
     @Override
     public void showMenu() {
 
@@ -30,6 +34,7 @@ public class MainMenu extends BaseMenu {
                 break;
             default:
                 System.out.println("Incorrect data, enter please again: 1  2 or 3, try again");
+                log.error("Incorrect data, enter please again: 1  2 or 3, try again");
                 showMenu();
         }
 

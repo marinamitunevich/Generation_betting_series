@@ -2,10 +2,13 @@ package com.lottery.menu;
 
 import com.lottery.ApplicationContext;
 import com.lottery.api.Lottery;
+import org.apache.log4j.Logger;
 
 import java.util.Scanner;
 
 public class GameNamesMenu extends BaseMenu {
+
+    private static Logger log = Logger.getLogger(GameNamesMenu.class.getName());
 
     @Override
     public void showMenu() {
@@ -32,6 +35,7 @@ public class GameNamesMenu extends BaseMenu {
                 ApplicationContext.INSTANCE.getParentMenu().showMenu();
             default:
                 System.out.println("Incorrect data, enter please again: 1  2 or 3, try again");
+                log.error("Incorrect data, enter please again: 1  2 or 3, try again");
                 showMenu();
         }
 
