@@ -1,6 +1,7 @@
 package com.lottery.api;
 
 import com.lottery.exceptions.IncorrectRangeOfUnluckyNumber;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -8,8 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public abstract class BaseLottery implements Lottery {
@@ -22,6 +21,7 @@ public abstract class BaseLottery implements Lottery {
     protected final int maxLotteryNumber;
     protected final int lotteryCountNumbers;
     protected final String unluckyNumbersFile;
+    protected List<Integer> generatedNumbers;
 
     protected BaseLottery(String lotteryName, int minLotteryNumber, int maxLotteryNumber, int lotteryCountNumbers, String unluckyNumbersFile) {
         this.lotteryName = lotteryName;
@@ -30,6 +30,7 @@ public abstract class BaseLottery implements Lottery {
         this.lotteryCountNumbers = lotteryCountNumbers;
         this.unluckyNumbersFile = unluckyNumbersFile;
         this.path = Paths.get(unluckyNumbersFile);
+        this.generatedNumbers = new ArrayList<>();
     }
 
     @Override
@@ -42,7 +43,7 @@ public abstract class BaseLottery implements Lottery {
             line = Files.readAllLines(path).get(0);
         } catch (IOException e) {
             e.printStackTrace();
-            log.log(Level.SEVERE, "IOException: ", e);
+            log.error("IOException: ", e);
         }
 
         unluckyNumbers = Arrays.stream(line.split(" ")).map(s -> Integer.valueOf(s)).collect(Collectors.toList());
@@ -58,8 +59,6 @@ public abstract class BaseLottery implements Lottery {
     @Override
     public void generateNumbers() {
 
-        List<Integer> generatedNumbers = new ArrayList<>();
-
         Random rand = new Random();
         while (generatedNumbers.size() < lotteryCountNumbers) {
 
@@ -71,7 +70,8 @@ public abstract class BaseLottery implements Lottery {
         }
 
         System.out.println("====================Series of numbers for " + lotteryCountNumbers + "aus" + maxLotteryNumber + " :");
-        System.out.println(generatedNumbers.stream().sorted().collect(Collectors.toList()));
+        generatedNumbers = generatedNumbers.stream().sorted().collect(Collectors.toList());
+        System.out.println(generatedNumbers);
     }
 
     @Override
@@ -99,12 +99,12 @@ public abstract class BaseLottery implements Lottery {
             } catch (IncorrectRangeOfUnluckyNumber e) {
 
                 System.out.println(e.getMessages());
-                log.log(Level.WARNING, "IncorrectRangeOfUnluckyNumber: ", e);
+                log.error("IncorrectRangeOfUnluckyNumber: ", e);
 
             } catch (NumberFormatException e) {
 
                 System.out.println("invalid format of numbers");
-                log.log(Level.WARNING, "NumberFormatException: ", e);
+                log.error("NumberFormatException: ", e);
             }
         }
 
@@ -112,7 +112,7 @@ public abstract class BaseLottery implements Lottery {
             Files.write(path, unluckyNumbers.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
-            log.log(Level.SEVERE, "IOException: ", e);
+            log.error("IOException: ", e);
         }
     }
 
@@ -125,7 +125,7 @@ public abstract class BaseLottery implements Lottery {
             Files.write(path, str.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
-            log.log(Level.SEVERE, "IOException: ", e);
+            log.error("IOException: ", e);
         }
 
         System.out.println("Attention unlucky numbers for " + getLotteryName() + " are deleted");
