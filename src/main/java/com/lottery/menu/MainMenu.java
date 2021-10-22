@@ -4,7 +4,7 @@ import com.lottery.ApplicationContext;
 
 import java.util.Scanner;
 
-public class MainMenu extends BaseMenu{
+public class MainMenu extends BaseMenu {
     @Override
     public void showMenu() {
 
