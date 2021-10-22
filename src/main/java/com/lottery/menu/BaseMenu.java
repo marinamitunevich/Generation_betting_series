@@ -1,4 +1,4 @@
 package com.lottery.menu;
 
-public abstract class BaseMenu {
+public abstract class BaseMenu implements Menu {
 }
