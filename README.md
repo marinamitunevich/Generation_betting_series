@@ -1,5 +1,7 @@
-#**Generator für Lottozahlen**
-###Beschreibung
+# Generator für Lottozahlen
+
+## Beschreibung
+
 Diese kleine Java-Anwendung hilft, eine Tippreihe für Lottery wie Lotto(6aus49) und Eurojackpot(5aus50 und 2aus10) 
 zu generieren und hat gleichzeitig die Möglichkeit, die Unglückszahlen des Benutzers zu berücksichtigen. 
 Bei der Eingabe von Unglückszahlen kann es sein, dass der Benutzer eine Fehlermeldung erhält, 
@@ -7,7 +9,7 @@ wenn die Zahlen für die Art des Spiels falsch sind. Diese Anwendung hat die Fun
 Daten (Unglückszahlen) auch nach Beendigung der Anwendung zu speichern. 
 Sie werden in Textdateien gespeichert, die auch in der Anwendung bereitgestellt werden.
 ---
-###Einstig
+## Einstig
 1. Um die Anwendung auszuführen, müssen Sie herunterladen [java](https://www.oracle.com/de/java/technologies/javase/jdk11-archive-downloads.html) und auf Ihrem Computer installieren
 2. Laden Sie die [Entwicklungsumgebung IntelliJ IDEA](https://www.jetbrains.com/idea/download/#section=mac) auf Ihren Computer herunter
 3. Öffnen Sie die Entwicklungsumgebung und erstellen Sie ein leeres Projekt
@@ -16,7 +18,7 @@ Sie werden in Textdateien gespeichert, die auch in der Anwendung bereitgestellt 
    ```git clone https://github.com/marinamitunevich/Generation_betting_series.git ```
 5. Wenn Sie ein Betriebssystem Windows verwenden, müssen Sie eine Git-Bash installieren und mit Idea verbinden
 
-###Spielanleitung
+### Spielanleitung
 1. Nachdem Sie diese Anwendung in die IntelliJ IDEA geklont haben, können Sie das Programm starten, indem Sie auf die Schaltfläche Programmstart klicken.
    In der Konsole sehen Sie das Startmenü.
 ![](images/MenuEinstig.png)
@@ -35,8 +37,8 @@ Sie werden in Textdateien gespeichert, die auch in der Anwendung bereitgestellt 
 8. Hier sehen wir ein Beispiel für die Generierung einer Tippreihe für das Spiel Lotto(6aus49).
 ![](images/serien_numbers.png)
 
-###Beschreibungen von Dateien und Klassen
-###menu
+### Beschreibungen von Dateien und Klassen
+### menu
 1. LotteryApplication.java: 
 Das ist der Einstigspunkt für die Ausführung. Es enthält Klassenobjekt MainMenu und Methodenaufruf showMenu(), die verwendet wird, 
 um das Startmenü zu erstellen.
@@ -58,7 +60,7 @@ um das Startmenü zu erstellen.
    eine Klasse, die von der BaseMenu erbt und die showMenu()-Methode überschreibt. 
    Die Methode enthält den Code für die Implementierung der Spielauswahl und die anschließende 
    Generierung einer Tippreihe.
-###api
+### api
 1. Lottery.java:
    das Interface, die Methoden enthält: generateNumbers() getLotteryName(), die auch Interface UnluckyNumbers erbt.
 2. UnluckyNumbers.java
