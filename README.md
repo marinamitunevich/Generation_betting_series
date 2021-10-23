@@ -6,7 +6,7 @@ Bei der Eingabe von Unglückszahlen kann es sein, dass der Benutzer eine Fehlerm
 wenn die Zahlen für die Art des Spiels falsch sind. Diese Anwendung hat die Funktion, 
 Daten (Unglückszahlen) auch nach Beendigung der Anwendung zu speichern. 
 Sie werden in Textdateien gespeichert, die auch in der Anwendung bereitgestellt werden.
-
+---
 ###Einstig
 1. Um die Anwendung auszuführen, müssen Sie herunterladen [java](https://www.oracle.com/de/java/technologies/javase/jdk11-archive-downloads.html) und auf Ihrem Computer installieren
 2. Laden Sie die [Entwicklungsumgebung IntelliJ IDEA](https://www.jetbrains.com/idea/download/#section=mac) auf Ihren Computer herunter
