@@ -4,8 +4,8 @@ import com.lottery.api.BaseLottery;
 
 public class EuroJackPot5From50 extends BaseLottery {
 
-    protected EuroJackPot5From50(String lotteryName) {
-        super(lotteryName, 1, 50, 5,
+    public EuroJackPot5From50() {
+        super("Eurojackpot5from50", 1, 50, 5,
                 "unluckyNumber5aus50.txt");
     }
 }

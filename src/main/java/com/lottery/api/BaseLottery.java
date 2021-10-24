@@ -13,8 +13,9 @@ import java.util.stream.Collectors;
 
 public abstract class BaseLottery implements Lottery {
 
-    private static Logger log = Logger.getLogger(BaseLottery.class.getName());
-    protected Path path;
+    private final static Logger log = Logger.getLogger(BaseLottery.class.getName());
+    protected final Path path;
+    protected final byte[] emptyLineBytes;
 
     protected final String lotteryName;
     protected final int minLotteryNumber;
@@ -24,6 +25,8 @@ public abstract class BaseLottery implements Lottery {
     protected List<Integer> generatedNumbers;
 
     protected BaseLottery(String lotteryName, int minLotteryNumber, int maxLotteryNumber, int lotteryCountNumbers, String unluckyNumbersFile) {
+
+        this.emptyLineBytes = "".getBytes(StandardCharsets.UTF_8);
         this.lotteryName = lotteryName;
         this.minLotteryNumber = minLotteryNumber;
         this.maxLotteryNumber = maxLotteryNumber;
@@ -46,8 +49,7 @@ public abstract class BaseLottery implements Lottery {
             log.error("IOException: ", e);
         }
 
-        unluckyNumbers = Arrays.stream(line.split(" ")).map(s -> Integer.valueOf(s)).collect(Collectors.toList());
-
+        unluckyNumbers = getListFromLine(line);
         return unluckyNumbers;
     }
 
@@ -78,23 +80,12 @@ public abstract class BaseLottery implements Lottery {
     public void addUnluckyNumbers() {
 
         System.out.println("enter unlucky numbers for " + getLotteryName() + " and please split with blank:");
-        Scanner readerFromConsole = new Scanner(System.in);
 
-        String unluckyNumbers = "";
-        boolean condition = true;
+        String unluckyNumbers = null;
 
-        while (condition) {
-            unluckyNumbers = readerFromConsole.nextLine();
+        while (unluckyNumbers == null) {
             try {
-                if (!(Arrays.stream(unluckyNumbers.split(" ")).map(s -> Integer.valueOf(s))
-                        .allMatch(integer -> integer <= maxLotteryNumber && integer >= minLotteryNumber)
-                        && unluckyNumbers.split(" ").length <= 6)) {
-
-                    throw new IncorrectRangeOfUnluckyNumber("unlucky number should be in the range [" + minLotteryNumber + "," +
-                            maxLotteryNumber + "] and it is allowed maximum 6 unlucky numbers");
-                } else {
-                    condition = false;
-                }
+                unluckyNumbers = checkConditions();
 
             } catch (IncorrectRangeOfUnluckyNumber e) {
 
@@ -119,15 +110,32 @@ public abstract class BaseLottery implements Lottery {
     @Override
     public void removeUnluckyNumbers() {
 
-        String str = "";
-
         try {
-            Files.write(path, str.getBytes(StandardCharsets.UTF_8));
+            Files.write(path, emptyLineBytes);
+            System.out.println("Attention unlucky numbers for " + getLotteryName() + " are deleted\n");
         } catch (IOException e) {
             e.printStackTrace();
             log.error("IOException: ", e);
         }
+    }
 
-        System.out.println("Attention unlucky numbers for " + getLotteryName() + " are deleted");
+    private List<Integer> getListFromLine(String line) {
+
+        return Arrays.stream(line.split(" ")).map(s -> Integer.valueOf(s)).collect(Collectors.toList());
+    }
+
+    private String checkConditions() throws IncorrectRangeOfUnluckyNumber {
+
+        Scanner scanner = new Scanner(System.in);
+        String line = scanner.nextLine();
+
+        if (!(getListFromLine(line).stream().allMatch(integer -> integer <= maxLotteryNumber && integer >= minLotteryNumber)
+                && line.split(" ").length <= 6)) {
+
+            throw new IncorrectRangeOfUnluckyNumber("unlucky number should be in the range [" + minLotteryNumber + "," +
+                    maxLotteryNumber + "] and it is allowed maximum 6 unlucky numbers");
+        } else {
+            return line;
+        }
     }
 }

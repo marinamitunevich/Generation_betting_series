@@ -19,6 +19,7 @@ public class GameNamesMenu extends BaseMenu {
         System.out.println("1 - Lotto");
         System.out.println("2 - Eurojackpot");
         System.out.println("3 - back to Menu");
+        System.out.println("4 - exit");
 
 
         String readConsole = readerFromConsole.nextLine();
@@ -32,7 +33,11 @@ public class GameNamesMenu extends BaseMenu {
                 lottery = ApplicationContext.INSTANCE.getEuroJackPotLottery();
                 break;
             case "3":
-                ApplicationContext.INSTANCE.getParentMenu().showMenu();
+                ApplicationContext.INSTANCE.getRootMenu().showMenu();
+                break;
+            case "4":
+                exit();
+                break;
             default:
                 System.out.println("Incorrect data, enter please again: 1  2 or 3, try again");
                 log.error("Incorrect data, enter please again: 1  2 or 3, try again");
@@ -40,7 +45,6 @@ public class GameNamesMenu extends BaseMenu {
         }
 
         if (lottery != null) {
-
             lottery.generateNumbers();
         }
     }

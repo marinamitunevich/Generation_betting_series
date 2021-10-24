@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 
 import java.util.Scanner;
 
-public class MainMenu extends BaseMenu {
+public class GameNamesUnluckyNumbersMenu extends BaseMenu {
 
     private static Logger log = Logger.getLogger(MainMenu.class.getName());
 
@@ -14,22 +14,30 @@ public class MainMenu extends BaseMenu {
 
         Scanner readerFromConsole = ApplicationContext.INSTANCE.getReaderFromConsole();
 
-        System.out.println("Menu:");
-        System.out.println("1 - choose game and generate numbers");
-        System.out.println("2 - unlucky numbers");
-        System.out.println("3 - exit");
+        System.out.println("Choose your lottery game to add or remove your unlucky numbers:");
+        System.out.println("1 - Lotto");
+        System.out.println("2 - EuroJackPot2From10");
+        System.out.println("3 - EuroJackPot5From50");
+        System.out.println("4 - back to Menu");
+        System.out.println("5 - exit");
 
         String readConsole = readerFromConsole.nextLine();
 
         Menu nextMenu = null;
         switch (readConsole) {
             case "1":
-                nextMenu = new GameNamesMenu();
+                nextMenu = new UnluckyNumbersMenu(ApplicationContext.INSTANCE.getLottoLottery());
                 break;
             case "2":
-                nextMenu = new GameNamesUnluckyNumbersMenu();
+                nextMenu = new UnluckyNumbersMenu(ApplicationContext.INSTANCE.getEuroJackPot2From10());
                 break;
             case "3":
+                nextMenu = new UnluckyNumbersMenu(ApplicationContext.INSTANCE.getEuroJackPot5From50());
+                break;
+            case "4":
+                ApplicationContext.INSTANCE.getRootMenu().showMenu();
+                break;
+            case "5":
                 exit();
                 break;
             default:
@@ -42,6 +50,5 @@ public class MainMenu extends BaseMenu {
             nextMenu.showMenu();
             showMenu();
         }
-
     }
 }

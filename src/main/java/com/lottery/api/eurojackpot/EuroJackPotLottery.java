@@ -13,8 +13,8 @@ public class EuroJackPotLottery implements Lottery {
     public EuroJackPotLottery() {
 
         this.nameLottery = "EuroJackPot";
-        euroJackPot5From50 = new EuroJackPot5From50("Eurojackpot5from50");
-        euroJackPot2From10 = new EuroJackPot2From10("Eurojackpot2from10");
+        euroJackPot5From50 = new EuroJackPot5From50();
+        euroJackPot2From10 = new EuroJackPot2From10();
     }
 
 
@@ -40,14 +40,12 @@ public class EuroJackPotLottery implements Lottery {
     @Override
     public void addUnluckyNumbers() {
 
-        euroJackPot5From50.addUnluckyNumbers();
-        euroJackPot2From10.addUnluckyNumbers();
+        throw new UnsupportedOperationException("Not allowed here");
     }
 
     @Override
     public void removeUnluckyNumbers() {
 
-        euroJackPot2From10.removeUnluckyNumbers();
-        euroJackPot5From50.removeUnluckyNumbers();
+        throw new UnsupportedOperationException("Not allowed here");
     }
 }

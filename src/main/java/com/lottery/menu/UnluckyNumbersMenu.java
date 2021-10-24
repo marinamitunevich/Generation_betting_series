@@ -9,6 +9,11 @@ import java.util.Scanner;
 public class UnluckyNumbersMenu extends BaseMenu {
 
     private static Logger log = Logger.getLogger(UnluckyNumbersMenu.class.getName());
+    protected Lottery lottery;
+
+    public UnluckyNumbersMenu(Lottery lottery) {
+        this.lottery = lottery;
+    }
 
     @Override
     public void showMenu() {
@@ -19,45 +24,28 @@ public class UnluckyNumbersMenu extends BaseMenu {
         System.out.println("1 - add your unlucky numbers");
         System.out.println("2 - delete your unlucky numbers");
         System.out.println("3 - back to Menu");
+        System.out.println("4 - exit()");
+
 
         String readConsole = readerFromConsole.nextLine();
 
         switch (readConsole) {
             case "1":
-                addUnluckyNumbers();
+                lottery.addUnluckyNumbers();
                 break;
             case "2":
-                deleteUnluckyNumbers();
+                lottery.removeUnluckyNumbers();
                 break;
             case "3":
-                ApplicationContext.INSTANCE.getParentMenu().showMenu();
+                ApplicationContext.INSTANCE.getRootMenu().showMenu();
+                break;
+            case "4":
+                exit();
                 break;
             default:
                 System.out.println("Incorrect data, enter please again: 1 2 or 3");
                 log.error("Incorrect data, enter please again: 1 2 or 3");
                 showMenu();
         }
-    }
-
-    private void deleteUnluckyNumbers() {
-
-        Lottery lottery = null;
-
-        lottery = ApplicationContext.INSTANCE.getLottoLottery();
-        lottery.removeUnluckyNumbers();
-
-        lottery = ApplicationContext.INSTANCE.getEuroJackPotLottery();
-        lottery.removeUnluckyNumbers();
-    }
-
-    private void addUnluckyNumbers() {
-
-        Lottery lottery = null;
-
-        lottery = ApplicationContext.INSTANCE.getLottoLottery();
-        lottery.addUnluckyNumbers();
-
-        lottery = ApplicationContext.INSTANCE.getEuroJackPotLottery();
-        lottery.addUnluckyNumbers();
     }
 }
