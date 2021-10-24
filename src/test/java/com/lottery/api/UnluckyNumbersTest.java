@@ -131,9 +131,6 @@ public class UnluckyNumbersTest {
     public void getUnluckyNumbersTest_success() {
 
         String input = mockScanner("20 6 7 30");
-        InputStream in = new ByteArrayInputStream(input.getBytes());
-        System.setIn(in);
-
 
         lottery.addUnluckyNumbers();
 
