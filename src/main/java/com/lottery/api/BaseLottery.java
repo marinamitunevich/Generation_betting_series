@@ -40,13 +40,17 @@ public abstract class BaseLottery implements Lottery {
     public List<Integer> getUnluckyNumbers() {
 
         List<Integer> unluckyNumbers;
-        String line = "";
+        String line = " ";
 
         try {
             line = Files.readAllLines(path).get(0);
+
         } catch (IOException e) {
             e.printStackTrace();
             log.error("IOException: ", e);
+
+        } catch (IndexOutOfBoundsException e) {
+            log.error("IndexOutOfBoundsException: ", e);
         }
 
         unluckyNumbers = getListFromLine(line);
@@ -71,6 +75,11 @@ public abstract class BaseLottery implements Lottery {
             }
         }
 
+        if (getUnluckyNumbers().size() == 0) {
+            System.out.println("Enter unlucky numbers for " + lotteryCountNumbers + "aus" + maxLotteryNumber +
+                    " ! Your series of numbers is generated without unlucky numbers");
+        }
+
         System.out.println("====================Series of numbers for " + lotteryCountNumbers + "aus" + maxLotteryNumber + " :");
         generatedNumbers = generatedNumbers.stream().sorted().collect(Collectors.toList());
         System.out.println(generatedNumbers);
@@ -84,6 +93,7 @@ public abstract class BaseLottery implements Lottery {
         String unluckyNumbers = null;
 
         while (unluckyNumbers == null) {
+
             try {
                 unluckyNumbers = checkConditions();
 
@@ -94,13 +104,14 @@ public abstract class BaseLottery implements Lottery {
 
             } catch (NumberFormatException e) {
 
-                System.out.println("invalid format of numbers");
+                System.out.println("invalid format of numbers, only numbers can be entered");
                 log.error("NumberFormatException: ", e);
             }
         }
 
         try {
             Files.write(path, unluckyNumbers.getBytes(StandardCharsets.UTF_8));
+
         } catch (IOException e) {
             e.printStackTrace();
             log.error("IOException: ", e);
@@ -119,10 +130,24 @@ public abstract class BaseLottery implements Lottery {
         }
     }
 
+    /**
+     * extracts numbers from a @param line and collects them into a list of numbers
+     *
+     * @param line
+     * @return list of numbers
+     */
+
     private List<Integer> getListFromLine(String line) {
 
         return Arrays.stream(line.split(" ")).map(s -> Integer.valueOf(s)).collect(Collectors.toList());
     }
+
+    /**
+     * reads a string from the console, checks it against certain conditions
+     *
+     * @return the line entered into the console
+     * @throws IncorrectRangeOfUnluckyNumber the string line does not satisfy the condition of the if operator
+     */
 
     private String checkConditions() throws IncorrectRangeOfUnluckyNumber {
 
@@ -135,6 +160,7 @@ public abstract class BaseLottery implements Lottery {
             throw new IncorrectRangeOfUnluckyNumber("unlucky number should be in the range [" + minLotteryNumber + "," +
                     maxLotteryNumber + "] and it is allowed maximum 6 unlucky numbers");
         } else {
+
             return line;
         }
     }

@@ -52,7 +52,8 @@ Sie werden in Textdateien gespeichert, die auch in der Anwendung bereitgestellt 
 Das ist der Einstiegspunkt für die Ausführung. Es enthält Klassenobjekt MainMenu und Methodenaufruf showMenu(), die verwendet wird, 
 um das Startmenü zu erstellen.
 2. ApplicationContext.java:
-   enum-Klasse, die ein Feld INSTANCE enthält, mit dem nur ein Objekt dieser Klasse während des Betriebs der Anwendung erstellt wird. Und wir können auf in dieser Klasse initialisierte Objekte zugreifen.
+   enum-Klasse, die ein Feld INSTANCE enthält, mit dem nur ein Objekt dieser Klasse während des Betriebs der Anwendung erstellt wird. 
+   Und wir können auf in dieser Klasse initialisierte Objekte zugreifen.
 3. Menu.java:
    Das ist ein Interface, die die Methode showMenu() enthält
 4. BaseMenu.java
@@ -79,14 +80,18 @@ um das Startmenü zu erstellen.
    das Interface, die Methoden enthält: addLuckyNumbers() getLuckyNumbers() removeLuckyNumbers().
 3. BaseLottery.java:
    es ist eine abstrakte Klasse, die das Lottery Interface implementiert
-   und schreibt alle seine Methoden und Methode von UnluckyNumbers über. Diese Methoden enthalten Code, um Dateien unglückliche Zahlen hinzuzufügen, diese Zahlen aus Dateien zu lesen und die unglücklichen Zahlen zu berücksichtigen, wenn eine Tippreihe von Zahlen generiert wird, Zahlen aus Dateien entfernt und der Name des Spiels abgerufen wird.
+   und überschreibt alle seine Methoden und Methode von UnluckyNumbers. Diese Methoden enthalten Code, um Dateien unglückliche Zahlen hinzuzufügen, 
+   diese Zahlen aus Dateien zu lesen und 
+   die unglücklichen Zahlen zu berücksichtigen, 
+   wenn eine Tippreihe von Zahlen generiert wird.
+   Zahlen aus Dateien zu entfernen.
 4. LottoLottery.java:
    eine Klasse, die von der BaseLottery erbt.
    Über den Konstruktor übergibt die Klasse ihre Daten an die Felder der Elternklasse und verwendet die Methoden der Elternklasse.
 5. EuroJackPotLottery.java:
    es ist eine Klasse, die das Lottery Interface implementiert.
    Diese Klasse nicht von der Klasse BaseLottery erbt im Gegensatz zu anderen Klassen.
-   Sie schreibt alle Methoden des Interfaces Lottery und UnluckyNumbers über. 
+   Sie überschreibt alle Methoden des Interfaces Lottery und UnluckyNumbers. 
    Diese Klasse hat ein anderes Verhalten als die Klasse BaseLottery. 
    Dementsprechend implementiert die Klasse Interface-Methoden auf andere Weise.
    Genauer gesagt bezieht sich die Klasse in diesen Methoden auf Objekte EuroJackPot2From10, EuroJackPot5From50 und ruft ihre Methoden auf.
