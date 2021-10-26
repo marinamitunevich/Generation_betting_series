@@ -141,6 +141,22 @@ public class UnluckyNumbersTest {
     }
 
     @Test
+    public void getUnluckyNumbersTest_emptyFile_indexOutOfBoundsException() {
+
+        lottery.removeUnluckyNumbers();
+
+        logger.addAppender(mockAppender);
+
+        List<Integer> list = lottery.getUnluckyNumbers();
+
+        ArgumentCaptor<LoggingEvent> eventArgumentCaptor = ArgumentCaptor.forClass(LoggingEvent.class);
+
+        verify(mockAppender, times(1)).doAppend(eventArgumentCaptor.capture());
+
+        assertEquals(0,list.size());
+    }
+
+    @Test
     public void removeUnLuckyNumbers_success() {
 
         lottery.removeUnluckyNumbers();

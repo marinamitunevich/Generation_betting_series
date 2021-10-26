@@ -2,7 +2,9 @@ package com.lottery.api;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,10 +25,14 @@ public class LotteryTest {
 
         LottoLottery lottery = new LottoLottery();
 
+        InputStream in = new ByteArrayInputStream("1 2 3".getBytes());
+        System.setIn(in);
+
+        lottery.addUnluckyNumbers();
+
         lottery.generateNumbers();
 
-        String line = readFromFile();
-        List<Integer> listUnluckyNumbers = Arrays.stream(line.split(" "))
+        List<Integer> listUnluckyNumbers = Arrays.stream(readFromFile().split(" "))
                 .map(s -> Integer.valueOf(s)).collect(Collectors.toList());
 
         assertTrue(!lottery.generatedNumbers.contains(listUnluckyNumbers));
@@ -36,11 +42,13 @@ public class LotteryTest {
     }
 
     private String readFromFile() {
-        String line = "";
+        String line = " ";
         try {
             line = Files.readAllLines(path).get(0);
         } catch (IOException e) {
             e.printStackTrace();
+        }catch (IndexOutOfBoundsException e){
+
         }
         return line;
     }
